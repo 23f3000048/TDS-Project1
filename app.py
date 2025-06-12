@@ -57,6 +57,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Root route for testing and landing page
+@app.get("/")
+async def root():
+    return {
+        "message": "Welcome to the Knowledge Base API.",
+        "endpoints": {
+            "query": "/api/",
+            "health_check": "/health"
+        }
+    }
+    
 # Verify API key is set
 if not API_KEY:
     logger.error("API_KEY environment variable is not set. The application will not function correctly.")
