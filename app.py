@@ -15,7 +15,7 @@ import base64
 from fastapi.responses import JSONResponse
 import uvicorn
 import traceback
-from dotenv import load_dotenv
+
 
 app = FastAPI()
 
@@ -27,9 +27,10 @@ logger = logging.getLogger(__name__)
 DB_PATH = "knowledge_base.db"
 SIMILARITY_THRESHOLD = 0.4  # Lowered threshold for better recall
 MAX_RESULTS = 10  # Increased to get more context
+from dotenv import load_dotenv
 load_dotenv()
-MAX_CONTEXT_CHUNKS = 4  # Increased number of chunks per source
 API_KEY = os.getenv("API_KEY")  # Get API key from environment variable
+MAX_CONTEXT_CHUNKS = 4  # Increased number of chunks per source
 
 # Models
 class QueryRequest(BaseModel):
