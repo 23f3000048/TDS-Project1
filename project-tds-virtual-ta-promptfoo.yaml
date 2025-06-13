@@ -3,7 +3,7 @@ description: "TDS Virtual TA Project Sample (but not the actual evaluation) Ques
 providers:
   - id: https
     config:
-      url: tds-project1-5l8bw0hyl-deepanshu-singhs-projects-8e543c57.vercel.app
+      url: https://tds-project1-5l8bw0hyl-deepanshu-singhs-projects-8e543c57.vercel.app/api/
       method: POST
       headers:
         Content-Type: application/json
