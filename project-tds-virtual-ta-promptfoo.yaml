@@ -1,9 +1,9 @@
-description: TDS Virtual TA Project Sample (but not the actual evaluation) Questions
+description: "TDS Virtual TA Project Sample (but not the actual evaluation) Questions"
 
 providers:
   - id: https
     config:
-      url: https://tds-project1-45f6f06nw-deepanshu-singhs-projects-8e543c57.vercel.app/
+      url: https://tds-project1-45f6f06nw-deepanshu-singhs-projects-8e543c57.vercel.app/ # Replace this with your API endpoint
       method: POST
       headers:
         Content-Type: application/json
@@ -14,42 +14,15 @@ providers:
         }
       transformResponse: json
 
-evaluator:
-  provider:
-    id: openai-proxy
-    config:
-      url: https://aiproxy.sanand.workers.dev/openai/v1/chat/completions
-      method: POST
-      headers:
-        Content-Type: application/json
-        Authorization: Bearer userapikey
-      body: |
-        {
-          "model": "gpt-4o-mini",
-          "messages": [
-            {
-              "role": "system",
-              "content": "You are an evaluator that checks if an output meets specific criteria. Analyze the output based on the given rubric and respond with a JSON object containing {\"reason\": \"your analysis\", \"score\": number between 0.0 and 1.0, \"pass\": true/false}."
-            },
-            {
-              "role": "user",
-              "content": "Output to evaluate: {{ output }}\n\nRubric: {{ rubric }}"
-            }
-          ],
-          "temperature": 0
-        }
-      transformResponse: json
-
+# Ensure JSON schema
 defaultTest:
-  provider: https
   assert:
     - type: is-json
       value:
         type: object
         required: [answer, links]
         properties:
-          answer:
-            type: string
+          answer: { type: string }
           links:
             type: array
             items:
@@ -82,7 +55,6 @@ tests:
       - type: contains
         transform: JSON.stringify(output.links)
         value: https://discourse.onlinedegree.iitm.ac.in/t/ga4-data-sourcing-discussion-thread-tds-jan-2025/165959
-
   - vars:
       question: I know Docker but have not used Podman before. Should I use Docker for this course?
     assert:
@@ -95,7 +67,6 @@ tests:
       - type: contains
         transform: JSON.stringify(output.links)
         value: https://tds.s-anand.net/#/docker
-
   - vars:
       question: When is the TDS Sep 2025 end-term exam?
     assert:
@@ -104,5 +75,6 @@ tests:
         value: Says it doesn't know (since this information is not available yet)
 
 writeLatestResults: true
+
 commandLineOptions:
-  cache: false
+  cache: true
