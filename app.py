@@ -738,5 +738,21 @@ async def health_check():
             content={"status": "unhealthy", "error": str(e), "api_key_set": bool(API_KEY)}
         )
 
+class PromptRequest(BaseModel):
+    prompt: str
+    
+@app.post("/api/")
+async def handle_prompt(request: PromptRequest):
+    prompt = request.prompt
+
+    try:
+        # Your actual logic here (currently dummy response)
+        # You can connect this with your vector DB logic later
+        return {"output": f"Received prompt: {prompt}"}
+
+    except Exception as e:
+        logger.error("Error processing prompt", exc_info=True)
+        return JSONResponse(status_code=500, content={"error": str(e)})
+
 if __name__ == "__main__":
     uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True) 
